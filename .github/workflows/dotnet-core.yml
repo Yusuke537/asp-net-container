@@ -19,7 +19,7 @@ jobs:
       uses: docker/build-push-action@v1.1.1
       with:
         push: false
-        tag: latest
+        tags: latest
     
     - name: Run Container Structure Test
       uses: plexsystems/container-structure-test-action@v0.1.0
