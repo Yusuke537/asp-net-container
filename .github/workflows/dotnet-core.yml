@@ -1,17 +1,28 @@
-name: build-application
+#The name of the workflow, will be displayed on the Github actions page
+name: DockerContainerTest
+# when to execute it, similar to Azure DevOps trigger keyword 
+on: #[push, pull_request]
+  push:
+    branches:
+      - master
 
-on:
-    push:
-      branches: [ master ]
 
+# list of jobs to execute
 jobs:
-    build:
+  build: 
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
 
-        runs-on: ubuntu-latest
-
-        steps:
-        - uses: actions/checkout@v2
-        - name: Build and push Docker images
-          uses: docker/build-push-action@v1.1.1
-          with:
-            push: false
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v1.1.1
+      with:
+        push: false
+        tag: latest
+    
+    - name: Run Container Structure Test
+      uses: plexsystems/container-structure-test-action@v0.1.0
+      with:
+        image: asizikov/asp-net-core:latest
+        config: cst-action.yaml
